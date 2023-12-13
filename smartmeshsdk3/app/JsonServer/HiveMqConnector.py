@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 import requests
 import re
 
-TOPIC = "iotbanjaluka"
+TOPIC = "aiotsystems"
 
 #============================ receive from manager ============================
 
