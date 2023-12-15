@@ -14,7 +14,7 @@ sudo virtualenv -p /usr/bin/python3 venv
 source venv/bin/activate
 
 # Install the Python packages needed by the SmartMesh SDK inside the venv
-pip install -r /home/pi/aiot_gateway/smartmeshsdk3/requirements.txt --default-timeout=100
+sudo pip install -r /home/pi/aiot_gateway/smartmeshsdk3/requirements.txt --default-timeout=100
 
 # Set up supervisor
 sudo cp confs/supervisor/aiot_gateway.conf /etc/supervisor/conf.d/aiot.conf
