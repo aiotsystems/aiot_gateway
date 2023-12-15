@@ -11,7 +11,7 @@ sudo apt install -y screen supervisor vim
 
 # install and activate the virtual environment
 sudo virtualenv -p /usr/bin/python3 venv
-sudo source venv/bin/activate
+source venv/bin/activate
 
 # Install the Python packages needed by the SmartMesh SDK inside the venv
 pip install -r /home/pi/aiot_gateway/smartmeshsdk3/requirements.txt --default-timeout=100
