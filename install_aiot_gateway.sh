@@ -7,7 +7,7 @@
 
 # update
 sudo apt update
-sudo apt install -y screen supervisor vim
+sudo apt install -y screen supervisor vim virtualenv
 
 # install and activate the virtual environment
 sudo virtualenv -p /usr/bin/python3 venv
