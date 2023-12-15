@@ -1,21 +1,21 @@
 # AIOT Gateway
 
 This repository contains the software that interfaces the AIOT Manager and a Raspberry Pi.
-The network data is pushed to the MQTT.
+The data is published to the HiveMQ public MQTT broker https://www.mqtt-dashboard.com/ with default topic `aiotsystems`
 
-- TODO [AIOT Gateway Gif]
+- TODO [place AIOT Gateway Gif]
 
 ## Hardware Requirements
 
 - Your favorite computer
-- Raspberry Pi 4 and above
+- Raspberry Pi 4 
 - Power supply for Raspberry (>2.5A)
 - micro-SD card (>16 GB)
 - micro-SD card reader
-- AIOT manager
+- AIOT Manager
 - Plastic enclosure
 
-The Internet connection can be taken from a Wi-Fi AP, Ethernet or 4G dongle.
+The Internet connection can be established through the Wi-Fi AP, Ethernet or 4G dongle.
 
 ## Configuring the AIOT Gateway
 
@@ -29,22 +29,25 @@ From the link above download and install the Raspberry Pi Imager.
 In the Raspberry Pi Imager select:
 - Device           - Raspberry Pi 4,  
 - Operating System - Raspberry Pi OS (64-BIT)
-- Storage   - micro-SD card
+- Storage          - micro-SD card
 
 After flashing, insert the micro-SD into the Raspberry Pi. 
-Power ON the Raspberry and connect it to a screen with an HDMI cable.
+Power ON the Raspberry and connect it to a screen with an HDMI cable, and connect a mouse and a keyboard.
 
 On the first boot of the OS you need to fill in the location and language info, username and password, and you can setup a Wi-Fi connection if needed.
 
+For the username type: `pi`
+For the password type: `raspberry`
+
 ### Step 2: Configure the UART on the Raspberry Pi
 
-AIOT Manager has 2 UART connections with the RPi:
-- Manager API is connected to UART0 (GPIO14 and GPIO15)
-- Manager CLI is connected to UART3 (GPIO4 and GPIO5)
+The AIOT Manager has 2 UART connections with the RPi:
+- Manager's API is connected to UART0 (GPIO14 and GPIO15)
+- Manager's CLI is connected to UART3 (GPIO4 and GPIO5)
 
-To enable UART on RPi open the terminal on the RPi and open the following file from the root folder with an editor:
+To enable UART on the RPi open the terminal on the RPi and open the following file from the root folder with the text editor:
 
-`/boot/config.txt`
+`sudo nano /boot/config.txt`
 
 Add the following lines and save the file:
 
@@ -54,12 +57,12 @@ enable_uart=1
 dtoverlay=uart3
 ```
 
-In the terimal type
+Then, in the terimal type:
 1. `sudo raspi-config`
 2. Select “Interfacing Options”
 3. Select “Serial”
-4. When asked “Would you like a login shell to be accessible over serial?” select no
-5. When asked “Would you like the serial port hardware to be enabled?” select yes
+4. When asked “Would you like a login shell to be accessible over serial?” select NO
+5. When asked “Would you like the serial port hardware to be enabled?” select YES
 6. Reboot the device
 
 After rebooting the Raspberry you should have the following devices in your `/dev/` folder"
@@ -86,13 +89,11 @@ For more info about the CLI guide of the AIOT Manager visit: https://www.analog.
 
 ### Step 5: Subscribe with the MQTT client to see the data
 
-At this point, if you have devices connected to your manager the data is published on the HiveMQ public MQTT broker: https://www.mqtt-dashboard.com/
-In order to see the data we need to configure a MQTT client which connects to the same broker and subscribe to the topic: `aiotsystems`
+At this point, if you some motes connected to your manager the data is published on the HiveMQ public MQTT broker: https://www.mqtt-dashboard.com/
+In order to see the data we need to configure a MQTT client which connects to the same broker and subscribes to the topic: `aiotsystems`
 
 We can do this easily using HiveMQ client: https://www.hivemq.com/demos/websocket-client/
 On the connection tab click `connect` on the mqtt-dashboard.com broker.
 Then on the next tab click on `Add New Topic Subscription` and type the name of the topic `aiotsystems`.
 
 SUCCESS! You should now see the data from your network on the Internet.
-
-
