@@ -3,6 +3,8 @@
 This repository contains the software that interfaces the AIOT Manager and a Raspberry Pi.
 The data is published to the HiveMQ public MQTT broker https://www.mqtt-dashboard.com/ with default topic `aiotsystems`
 
+NOTE: The this repository needs to be cloned or unzipped in `/home/pi/aiot_gateway`
+
 - TODO [place AIOT Gateway Gif]
 
 ## Hardware Requirements
@@ -72,8 +74,10 @@ After rebooting the Raspberry you should have the following devices in your `/de
 
 ### Step 3: Download and install the AIOT Gateway software 
 
-From your Raspberry Pi download the latest Release of the AIOT Gateway software here: https://github.com/aiotsystems/aiot_gateway
-Unzip the release in the /home/pi/ folder and run the following command:
+From your Raspberry Pi download the latest Release or clone the repository of the AIOT Gateway software here: https://github.com/aiotsystems/aiot_gateway
+This repository needs to be cloned or unzipped in `/home/pi/aiot_gateway`
+
+Unzip the content of the release in the /home/pi/aiot_gateway folder and run the following command:
 
 `source install_aiot_gateway.sh`
 
