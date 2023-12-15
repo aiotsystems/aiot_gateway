@@ -39,8 +39,8 @@ On the first boot of the OS you need to fill in the location and language info, 
 ### Step 2: Configure the UART on the Raspberry Pi
 
 AIOT Manager has 2 UART connections with the RPi:
-- Manager API is connected to UART0
-- Manager CLI is connected to Uart3
+- Manager API is connected to UART0 (GPIO14 and GPIO15)
+- Manager CLI is connected to UART3 (GPIO4 and GPIO5)
 
 To enable UART on RPi open the terminal on the RPi and open the following file from the root folder with an editor:
 
@@ -54,18 +54,27 @@ enable_uart=1
 dtoverlay=uart3
 ```
 
+In the terimal and type
+1. sudo raspi-config
+2. Select “Interfacing Options”
+3. Select “Serial”
+4. When asked “Would you like a login shell to be accessible over serial?” select no
+5. When asked “Would you like the serial port hardware to be enabled?” select yes
+6. Reboot the device
+
 After rebooting the Raspberry you should have the following devices in your `/dev/` folder"
 
-- `ttyS0` (or serial0) wich is connected to the Manager API
-- `ttyAMA3` which is connected to the Manager CLI
+- `ttyS0` (or `serial0`) which is now connected to the AIOT Manager API
+- `ttyAMA3` which is connected to the AIOT Manager CLI
 
-### Step 3: Download the AIOT Gateway software 
+### Step 3: Download and install the AIOT Gateway software 
 
 From your Raspberry Pi download the latest Release of the AIOT Gateway software here: https://github.com/aiotsystems/aiot_gateway
 Unzip the release in the user folder and run the following command:
 
 `TODO`
 
-### Step 4: Download and setup the supervisord - TODO
+Download and setup the supervisord - TODO
+
 ### Step 5: Run the software - TODO
 

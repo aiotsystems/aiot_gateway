@@ -13,7 +13,6 @@ import copy
 import pickle
 import traceback
 import codecs
-from future.utils import iteritems
 from builtins import str as text
 if os.name=='nt':       # Windows
     try:

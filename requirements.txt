@@ -1,4 +1,0 @@
--i https://pypi.org/simple
-bottle==0.12.18
-paho-mqtt==1.5.0
-pyserial==3.4

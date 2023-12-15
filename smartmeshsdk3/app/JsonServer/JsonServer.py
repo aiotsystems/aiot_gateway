@@ -214,6 +214,12 @@ class JsonServer(object):
         webthread.name = 'WebServer'
         webthread.daemon = True
         webthread.start()
+        
+        # this is the main thread, we don't want it to die
+        while True:
+            time.sleep(1)
+            if self.cli.is_alive()==False:
+                break
     
     #======================== admin ===========================================
     
@@ -500,7 +506,7 @@ if __name__=="__main__":
     parser.add_argument('--tcpport',                    default=8080)
     parser.add_argument('--autoaddmgr',   type=str2bool,default=False)
     parser.add_argument('--autodeletemgr',type=str2bool,default=False)
-    parser.add_argument('--serialport',                 default='/dev/ttyS0')
+    parser.add_argument('--serialport',                 default='/dev/serial0')
     parser.add_argument('--configfilename',             default='JsonServer.config')
     parser.add_argument('--allowremote',  type=str2bool,default=False)
     args = vars(parser.parse_args())
