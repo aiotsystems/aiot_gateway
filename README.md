@@ -54,8 +54,8 @@ enable_uart=1
 dtoverlay=uart3
 ```
 
-In the terimal and type
-1. sudo raspi-config
+In the terimal type
+1. `sudo raspi-config`
 2. Select “Interfacing Options”
 3. Select “Serial”
 4. When asked “Would you like a login shell to be accessible over serial?” select no
@@ -64,17 +64,35 @@ In the terimal and type
 
 After rebooting the Raspberry you should have the following devices in your `/dev/` folder"
 
-- `ttyS0` (or `serial0`) which is now connected to the AIOT Manager API
-- `ttyAMA3` which is connected to the AIOT Manager CLI
+- `/dev/serial0` (or `/dev/ttyS0`) which is now connected to the AIOT Manager API
+- `/dev/ttyAMA3` which is connected to the AIOT Manager CLI
 
 ### Step 3: Download and install the AIOT Gateway software 
 
 From your Raspberry Pi download the latest Release of the AIOT Gateway software here: https://github.com/aiotsystems/aiot_gateway
-Unzip the release in the user folder and run the following command:
+Unzip the release in the /home/pi/ folder and run the following command:
 
-`TODO`
+`source install_aiot_gateway.sh`
 
-Download and setup the supervisord - TODO
+Reboot the Raspberry.
 
-### Step 5: Run the software - TODO
+### Step 4: CLI Access to the AIOT Manager
+
+After the installation of the aiot_gateway software you should be able to have the CLI access after boot.
+Open the terminal and type: `screen -r serial`
+
+Now you should be able to interact with the AIOT Manager using the CLI commands.
+For more info about the CLI guide of the AIOT Manager visit: https://www.analog.com/media/en/reference-design-documentation/design-notes/smartmesh_ip_embedded_manager_cli_guide.pdf
+
+### Step 5: Subscribe with the MQTT client to see the data
+
+At this point, if you have devices connected to your manager the data is published on the HiveMQ public MQTT broker: https://www.mqtt-dashboard.com/
+In order to see the data we need to configure a MQTT client which connects to the same broker and subscribe to the topic: `aiotsystems`
+
+We can do this easily using HiveMQ client: https://www.hivemq.com/demos/websocket-client/
+On the connection tab click `connect` on the mqtt-dashboard.com broker.
+Then on the next tab click on `Add New Topic Subscription` and type the name of the topic `aiotsystems`.
+
+SUCCESS! You should now see the data from your network on the Internet.
+
 
