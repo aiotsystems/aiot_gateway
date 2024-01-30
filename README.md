@@ -5,7 +5,9 @@ The data is published to the HiveMQ public MQTT broker https://www.mqtt-dashboar
 
 NOTE: The this repository needs to be cloned or unzipped in `/home/pi/aiot_gateway`
 
-![](static/aiot_gateway.gif)
+<p align="center">
+  <img src="static/aiot_gateway.gif"/>
+</p>
 
 ## Hardware Requirements
 
