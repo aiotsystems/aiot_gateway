@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1920 1080">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: lime;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-7, .cls-8 {
+        fill: #000;
+      }
+
+      .cls-7, .cls-9 {
+        stroke-width: 0px;
+      }
+
+      .cls-8 {
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 24px;
+      }
+
+      .cls-2, .cls-4 {
+        fill: none;
+      }
+
+      .cls-3 {
+        fill: #f0f;
+      }
+
+      .cls-4 {
+        stroke-width: 15px;
+      }
+
+      .cls-9 {
+        fill: #fff;
+      }
+
+      .cls-5 {
+        fill: #29abe2;
+      }
+
+      .cls-6 {
+        fill: aqua;
+      }
+    </style>
+  </defs>
+  <g id="buttons">
+    <text id="button_label_music2" class="cls-8" transform="translate(897.61 868.31)"><tspan x="0" y="0">music 2</tspan></text>
+    <rect id="button_music2" class="cls-3" x="826.5" y="882.5" width="205" height="132"/>
+    <text id="button_label_music1" class="cls-8" transform="translate(640.61 868.31)"><tspan x="0" y="0">music 1</tspan></text>
+    <rect id="button_music1" class="cls-1" x="571.5" y="882.5" width="215" height="132"/>
+    <text id="button_active_label" class="cls-8" transform="translate(402.15 868.31)"><tspan x="0" y="0">active</tspan></text>
+    <rect id="button_active" class="cls-5" x="329.5" y="882.5" width="205" height="132"/>
+    <text id="button_lowpower_label" class="cls-8" transform="translate(127.75 868.31)"><tspan x="0" y="0">low-power</tspan></text>
+    <rect id="button_lowpower" class="cls-6" x="74.5" y="882.5" width="215" height="132"/>
+  </g>
+  <g id="hall">
+    <g id="hall_walls">
+      <rect class="cls-9" x="1493.5" y="93.5" width="298" height="941"/>
+      <path class="cls-7" d="M1791,94v940h-297V94h297M1792,93h-299v942h299V93h0Z"/>
+    </g>
+    <circle id="hall_mote6" class="cls-2" cx="1729" cy="974" r="18.5"/>
+    <circle id="hall_mote5" class="cls-2" cx="1730" cy="813" r="18.5"/>
+    <circle id="hall_mote4" class="cls-2" cx="1729" cy="652" r="18.5"/>
+    <circle id="hall_mote3" class="cls-2" cx="1730" cy="491" r="18.5"/>
+    <circle id="hall_mote2" class="cls-2" cx="1730" cy="330" r="18.5"/>
+    <circle id="hall_mote1" class="cls-2" cx="1729" cy="191" r="18.5"/>
+  </g>
+  <g id="expo">
+    <g id="expo_walls">
+      <rect class="cls-9" x="1132.5" y="93.5" width="298" height="941"/>
+      <path class="cls-7" d="M1430,94v940h-297V94h297M1431,93h-299v942h299V93h0Z"/>
+    </g>
+    <circle id="expo_mote5" class="cls-2" cx="1362" cy="974" r="18.5"/>
+    <circle id="expo_mote4" class="cls-2" cx="1362" cy="813" r="18.5"/>
+    <circle id="expo_mote3" class="cls-2" cx="1362" cy="652" r="18.5"/>
+    <circle id="expo_mote2" class="cls-2" cx="1362" cy="484" r="18.5"/>
+    <circle id="expo_mote1" class="cls-2" cx="1362" cy="330" r="18.5"/>
+  </g>
+  <g id="showroom">
+    <g id="showroom_walls">
+      <rect class="cls-9" x="58.5" y="50.5" width="989" height="734"/>
+      <path class="cls-7" d="M1047,51v733H59V51h988M1048,50H58v735h990V50h0Z"/>
+    </g>
+    <g id="machine">
+      <text id="machine_text" class="cls-8" transform="translate(742.93 455.93)"><tspan x="0" y="0">Machine</tspan></text>
+      <g id="machine_board">
+        <line class="cls-4" x1="721" y1="470.5" x2="852" y2="470.5"/>
+      </g>
+      <circle id="machine_mote" class="cls-2" cx="787" cy="496" r="18.5"/>
+    </g>
+    <g id="xplore">
+      <text id="xplore_text" class="cls-8" transform="translate(524.41 465.79)"><tspan x="0" y="0">Xplore</tspan></text>
+      <g id="xplore_board">
+        <line class="cls-4" x1="492" y1="483.5" x2="623" y2="483.5"/>
+      </g>
+      <circle id="xplore_mote" class="cls-2" cx="557" cy="510" r="18.5"/>
+    </g>
+    <g id="algorithme">
+      <text id="algorithme_text" class="cls-8" transform="translate(454.7 383.94)"><tspan x="0" y="0">Algorithme</tspan></text>
+      <g id="algorithme_board">
+        <line class="cls-4" x1="625.75" y1="402.89" x2="524.5" y2="313.5"/>
+      </g>
+      <circle id="algorithme_mote" class="cls-2" cx="590" cy="342" r="18.5"/>
+    </g>
+    <g id="language">
+      <text id="language_text" class="cls-8" transform="translate(232.1 152)"><tspan x="0" y="0">Language</tspan></text>
+      <g id="language_board">
+        <line class="cls-4" x1="217" y1="166.5" x2="348" y2="166.5"/>
+      </g>
+      <circle id="language_mote" class="cls-2" cx="282" cy="191" r="18.5"/>
+    </g>
+    <g id="information">
+      <text id="information_text" class="cls-8" transform="translate(102.01 372.47) rotate(-90)"><tspan x="0" y="0">Information</tspan></text>
+      <g id="information_board">
+        <line class="cls-4" x1="118.5" y1="375" x2="118.5" y2="251"/>
+      </g>
+      <circle id="information_mote" class="cls-2" cx="144" cy="313" r="18.5"/>
+    </g>
+    <g id="robotique">
+      <text id="robotique_text" class="cls-8" transform="translate(101.7 541.71) rotate(-90)"><tspan x="0" y="0">Robotique</tspan></text>
+      <g id="robotique_board">
+        <line class="cls-4" x1="118.5" y1="546" x2="118.5" y2="422"/>
+      </g>
+      <circle id="robotique_mote" class="cls-2" cx="144" cy="484" r="18.5"/>
+    </g>
+    <g id="apprentissage">
+      <text id="apprentissage_text" class="cls-8" transform="translate(65.98 773.18)"><tspan x="0" y="0">Apprentissage</tspan></text>
+      <g id="apprentissage_board">
+        <line class="cls-4" x1="87.5" y1="678.5" x2="174.5" y2="749.5"/>
+      </g>
+      <circle id="apprentissage_mote" class="cls-2" cx="147" cy="694" r="18.5"/>
+    </g>
+    <g id="reseau">
+      <text id="reseau_text" class="cls-8" transform="translate(255.33 765.7)"><tspan x="0" y="0">Reseau</tspan></text>
+      <g id="reseau_board">
+        <line class="cls-4" x1="225" y1="732.5" x2="356" y2="732.5"/>
+      </g>
+      <circle id="reseau_mote" class="cls-2" cx="290" cy="706" r="18.5"/>
+    </g>
+    <g id="big_data">
+      <text id="big_data_text" class="cls-8" transform="translate(449.46 765.94)"><tspan x="0" y="0">Big Data</tspan></text>
+      <g id="big_data_board">
+        <line class="cls-4" x1="427" y1="732.5" x2="558" y2="732.5"/>
+      </g>
+      <circle id="big_data_mote" class="cls-2" cx="492" cy="706" r="18.5"/>
+    </g>
+  </g>
+</svg>
