@@ -65,6 +65,11 @@ mote_macAddress2name = {}
 for m in MOTES:
     mote_macAddress2name[m['macAddress']] = m['name']
 
+MSGID_CMD_LOWPOWER = 0x01
+MSGID_CMD_ACTIVE   = 0x02
+MSGID_CMD_MUSIC    = 0x03
+MSGID_NOTIF_US     = 0x04
+
 #============================ helpers =========================================
 
 def formatVersion():
@@ -135,10 +140,10 @@ class AppData(object):
     def notifData(self,motename,fill):
         with self.dataLock:
             self.data['motes'][motename]['fill']=fill
-            if self.data['motes'][motename]['stroke']=='light-blue':
+            if self.data['motes'][motename]['stroke']=='yellow':
                 self.data['motes'][motename]['stroke'] = 'blue'
             else:
-                self.data['motes'][motename]['stroke'] = 'light-blue'
+                self.data['motes'][motename]['stroke'] = 'yellow'
     
     def get_motes(self):
         with self.dataLock:
@@ -441,11 +446,35 @@ class WebServer(object):
         return returnVal
     
     def _webhandle_museum_POST(self):
-        print('NotImplementedError')
-        raise NotImplementedError()
+        body = bottle.request.body.read()
+        print(body)
+        
+        data = None
+        if   body==b'button_lowpower':
+            data = [MSGID_CMD_LOWPOWER]
+        elif body==b'button_active':
+            data = [MSGID_CMD_ACTIVE]
+        elif body==b'button_music1':
+            data = [MSGID_CMD_MUSIC]
+        elif body==b'button_music2':
+            pass
+        
+        if data:
+            for _ in range(4):
+                self.dataGatherer.jsonManager.raw_POST(
+                    commandArray = ['sendData'],
+                    fields       = {
+                        'macAddress': [0xff]*8,
+                        'priority':   0,
+                        'srcPort':    0xf0b8,
+                        'dstPort':    0xf0b8,
+                        'options':    0,
+                        'data':       data,
+                    },
+                    manager      = 0
+                )
     
     #======================== private =========================================
-        
 
 class InriaMuseum(object):
     

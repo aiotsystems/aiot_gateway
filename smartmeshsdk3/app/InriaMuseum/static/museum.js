@@ -12,6 +12,23 @@ function loadSvg() {
 
 function buildPage() {
     
+    d3.select("#button_lowpower")
+        .on('click', function(d,i){
+            $.post('museum', 'button_lowpower');
+        });
+    d3.select("#button_active")
+        .on('click', function(d,i){
+            $.post('museum', 'button_active');
+        });
+    d3.select("#button_music1")
+        .on('click', function(d,i){
+            $.post('museum', 'button_music1');
+        });
+    d3.select("#button_music2")
+        .on('click', function(d,i){
+            $.post('museum', 'button_music2');
+        });
+    
     uiReady = true;
 }
 
