@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Musé Inria exposition</title>
+    <link rel="stylesheet" type="text/css" href="demoMusee.css"> 
+    <script>
+
+        var current_page;
+        function handleButtonClick(event) {
+            if(event.target.id == ""){
+                const parentElementId = event.target.parentElement ? event.target.parentElement.id : 'No parent element';
+                changePage(parentElementId);
+            }
+            else{
+                changePage(event.target.id);
+
+            }
+        }
+        
+        function changePage(ElementId) {
+            switch (ElementId) {
+                case "button_start_fr":
+                case "button_start_fr_label":
+                    current_page='2.svg';
+                    break;
+                case "button_active": 
+                case "button_suite":
+                case "button_music1" :
+                case "button_music2" :
+                case "button_suite_group":
+                    defineNextSVG();
+                    break;
+                case "button_leave":
+                case "button_défis-2":
+                    current_page='1.svg';
+                    break;
+                case "button_copyright":
+                    current_page='credit.svg';
+                    break;
+                case "button_défis":
+                    current_page='5.svg';
+                    break;
+                default :
+                    console.log(`default ${ElementId} `); 
+                    break;
+            }
+            loadSVG(current_page);
+            checkPage();
+
+        }
+
+        function defineNextSVG(){
+            console.log(`Actual Page ${current_page} `);
+            let number = current_page.replace('.svg', '');
+            var temp = Number(number) + 1;   
+            current_page = temp.toString()+'.svg';
+            console.log(`Number ${temp} `); 
+            console.log(`Next Page ${current_page} `);        
+
+        }
+
+        function checkPage() {
+            if(current_page=="2.svg"){
+                current_page = "3.svg";
+                setTimeout(function(){
+    loadSVG(current_page);
+}, 5000);
+            }
+            if(current_page=="7.svg"){
+                current_page = "8.svg";
+                setTimeout(function(){
+    loadSVG(current_page);
+}, 5000);
+               
+            }
+        }
+
+
+
+        function loadSVG(filename) {
+            console.log(`New page ${filename} `);
+            fetch(filename)
+                .then(response => response.text())
+                .then(svgContent => {
+                    document.getElementById('svgContainer').innerHTML = svgContent;
+                    loadelement();
+
+                })
+                .catch(error => console.error('Error loading SVG:', error));
+        }
+        
+        window.onload = function() {
+            loadSVG('1.svg');
+            loadelement();
+        }
+
+
+        function loadelement() {
+            console.log('Page loaded, setting up event listeners');
+            const ids = ["button_start_fr", "button_start_fr_label", "button_copyright", "button_active","button_suite_group","button_leave", "button_music1", "button_music2","button_défis","button_défis-2"];
+            ids.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener("click", handleButtonClick);
+                    console.log(`Event listener attached to: ${id}`);
+                } else {
+                    console.log(`Element with id ${id} not found`);
+                }
+            });
+
+            if(current_page=="6.svg"){
+                const circle = document.getElementById("algorithme_mote");
+                if (circle) {
+                    console.log("Found !!!!");
+                    circle.style.fill = "green";
+                    //circle.setAttribute("cx", "300");
+                } else {
+                    console.error("Element with ID 'algorithme_mote' not found");
+                }
+
+                const rect = document.getElementById("algorithme_board");
+                if (rect) {
+                    rect.style.fill = "orange";
+                } else {
+                    console.error("Element with ID 'algorithme_mote' not found");
+                }
+                var circl = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+                circl.setAttribute('cx', circle.cx);
+                circl.setAttribute('cy', circle.cy);
+                circl.setAttribute( 'height', '100');
+                circl.setAttribute( 'width', '100');
+                document.getElementById('showroom_walls').appendChild(circl);
+            }
+        };
+    </script>
+</head>
+
+
+<body>
+    <section id="svgContainer" class="doc">
+    </section>
+</body>
+</html>

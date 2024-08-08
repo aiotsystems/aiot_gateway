@@ -1,0 +1,7 @@
+#button_suite_group,#button_start_fr,#button_active,#button_leave,#button_music1,#button_music2,#button_défis,#button_défis-2:hover{
+    cursor:grab;
+}
+
+.doc:hover{
+    cursor:default;
+}
