@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Musé Inria exposition</title>
-    <link rel="stylesheet" type="text/css" href="demoMusee.css"> 
+    <link rel="stylesheet" type="text/css" href="InriaMuseum.css"> 
     <script>
 
         var current_page;
@@ -21,7 +21,7 @@
             switch (ElementId) {
                 case "button_start_fr":
                 case "button_start_fr_label":
-                    current_page='2.svg';
+                    current_page='Launching.svg';
                     break;
                 case "button_active": 
                 case "button_suite":
@@ -32,13 +32,13 @@
                     break;
                 case "button_leave":
                 case "button_défis-2":
-                    current_page='1.svg';
+                    current_page='Welcom.svg';
                     break;
                 case "button_copyright":
                     current_page='credit.svg';
                     break;
                 case "button_défis":
-                    current_page='5.svg';
+                    current_page='Select_music.svg';
                     break;
                 default :
                     console.log(`default ${ElementId} `); 
@@ -50,24 +50,41 @@
         }
 
         function defineNextSVG(){
-            console.log(`Actual Page ${current_page} `);
-            let number = current_page.replace('.svg', '');
-            var temp = Number(number) + 1;   
-            current_page = temp.toString()+'.svg';
-            console.log(`Number ${temp} `); 
-            console.log(`Next Page ${current_page} `);        
+            switch (current_page) {
+                case "Introduction.svg":
+                    current_page='Describe_network.svg';
+                    break;
+                case "Describe_network.svg":
+                    current_page='Select_music.svg';
+                    break;
+                case "Select_music.svg":
+                    current_page='Activate_mote.svg';
+                    break;
+                case "Activate_mote.svg":
+                    current_page='Listening.svg';
+                    break;
+                case "Listening.svg":
+                    current_page='Ending_Demonstration.svg';
+                    break;
+            }               
 
         }
 
         function checkPage() {
-            if(current_page=="2.svg"){
-                current_page = "3.svg";
+            if(current_page=="Launching.svg"){
+                current_page = "Introduction.svg";
                 setTimeout(function(){
     loadSVG(current_page);
 }, 5000);
             }
-            if(current_page=="7.svg"){
-                current_page = "8.svg";
+            if(current_page=="Activate_mote.svg"){
+                current_page = "Listening.svg";
+                setTimeout(function(){
+    loadSVG(current_page);
+}, 5000);
+            }
+            if(current_page=="Listening.svg"){
+                current_page = "Ending_Demonstration.svg";
                 setTimeout(function(){
     loadSVG(current_page);
 }, 5000);
@@ -78,8 +95,9 @@
 
 
         function loadSVG(filename) {
+            const filePath = `svg/${filename}`;
             console.log(`New page ${filename} `);
-            fetch(filename)
+            fetch(filePath)
                 .then(response => response.text())
                 .then(svgContent => {
                     document.getElementById('svgContainer').innerHTML = svgContent;
@@ -90,7 +108,7 @@
         }
         
         window.onload = function() {
-            loadSVG('1.svg');
+            loadSVG('Welcom.svg');
             loadelement();
         }
 
@@ -108,30 +126,22 @@
                 }
             });
 
-            if(current_page=="6.svg"){
-                const circle = document.getElementById("algorithme_mote");
-                if (circle) {
-                    console.log("Found !!!!");
-                    circle.style.fill = "green";
-                    //circle.setAttribute("cx", "300");
-                } else {
-                    console.error("Element with ID 'algorithme_mote' not found");
-                }
-
-                const rect = document.getElementById("algorithme_board");
-                if (rect) {
-                    rect.style.fill = "orange";
-                } else {
-                    console.error("Element with ID 'algorithme_mote' not found");
-                }
-                var circl = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
-                circl.setAttribute('cx', circle.cx);
-                circl.setAttribute('cy', circle.cy);
-                circl.setAttribute( 'height', '100');
-                circl.setAttribute( 'width', '100');
-                document.getElementById('showroom_walls').appendChild(circl);
+              if(current_page=="Describe_network.svg"){
+                changeColor("blue","xplore_mote");
+                changeColor("orange","algorithme_board");
             }
+
+
         };
+
+        function changeColor(color,id){
+            const element = document.getElementById(id);
+                if (element) {
+                    element.style.fill = color;
+                } else {
+                    console.error("Element with ID 'algorithme_mote' not found");
+                }
+        }
     </script>
 </head>
 

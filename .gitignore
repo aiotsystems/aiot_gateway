@@ -1,0 +1,6 @@
+# Avoid directory
+/_pycache_/
+
+
+# Avoid file
+*.ipynb
