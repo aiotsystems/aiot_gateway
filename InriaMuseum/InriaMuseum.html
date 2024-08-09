@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Musé Inria exposition</title>
+    <title>Inria Museum</title>
     <link rel="stylesheet" type="text/css" href="InriaMuseum.css"> 
     <script>
 
@@ -10,10 +10,8 @@
             if(event.target.id == ""){
                 const parentElementId = event.target.parentElement ? event.target.parentElement.id : 'No parent element';
                 changePage(parentElementId);
-            }
-            else{
+            }else{
                 changePage(event.target.id);
-
             }
         }
         
@@ -21,7 +19,7 @@
             switch (ElementId) {
                 case "button_start_fr":
                 case "button_start_fr_label":
-                    current_page='Launching.svg';
+                    current_page='launching.svg';
                     break;
                 case "button_active": 
                 case "button_suite":
@@ -32,13 +30,13 @@
                     break;
                 case "button_leave":
                 case "button_défis-2":
-                    current_page='Welcom.svg';
+                    current_page='welcome.svg';
                     break;
                 case "button_copyright":
                     current_page='credit.svg';
                     break;
                 case "button_défis":
-                    current_page='Select_music.svg';
+                    current_page='select_music.svg';
                     break;
                 default :
                     console.log(`default ${ElementId} `); 
@@ -46,53 +44,48 @@
             }
             loadSVG(current_page);
             checkPage();
-
         }
 
         function defineNextSVG(){
             switch (current_page) {
-                case "Introduction.svg":
-                    current_page='Describe_network.svg';
+                case "introduction.svg":
+                    current_page='describe_network.svg';
                     break;
-                case "Describe_network.svg":
-                    current_page='Select_music.svg';
+                case "describe_network.svg":
+                    current_page='select_music.svg';
                     break;
-                case "Select_music.svg":
-                    current_page='Activate_mote.svg';
+                case "select_music.svg":
+                    current_page='activate_mote.svg';
                     break;
-                case "Activate_mote.svg":
-                    current_page='Listening.svg';
+                case "activate_mote.svg":
+                    current_page='listening.svg';
                     break;
-                case "Listening.svg":
-                    current_page='Ending_Demonstration.svg';
+                case "listening.svg":
+                    current_page='ending_demonstration.svg';
                     break;
             }               
-
         }
 
         function checkPage() {
-            if(current_page=="Launching.svg"){
-                current_page = "Introduction.svg";
+            if(current_page=="launching.svg"){
+                current_page = "introduction.svg";
                 setTimeout(function(){
     loadSVG(current_page);
 }, 5000);
             }
-            if(current_page=="Activate_mote.svg"){
-                current_page = "Listening.svg";
+            if(current_page=="ativate_mote.svg"){
+                current_page = "listening.svg";
                 setTimeout(function(){
     loadSVG(current_page);
 }, 5000);
             }
-            if(current_page=="Listening.svg"){
-                current_page = "Ending_Demonstration.svg";
+            if(current_page=="listening.svg"){
+                current_page = "ending_demonstration.svg";
                 setTimeout(function(){
     loadSVG(current_page);
-}, 5000);
-               
+}, 5000);        
             }
         }
-
-
 
         function loadSVG(filename) {
             const filePath = `svg/${filename}`;
@@ -102,16 +95,14 @@
                 .then(svgContent => {
                     document.getElementById('svgContainer').innerHTML = svgContent;
                     loadelement();
-
                 })
                 .catch(error => console.error('Error loading SVG:', error));
         }
         
         window.onload = function() {
-            loadSVG('Welcom.svg');
+            loadSVG('welcome.svg');
             loadelement();
         }
-
 
         function loadelement() {
             console.log('Page loaded, setting up event listeners');
@@ -125,22 +116,15 @@
                     console.log(`Element with id ${id} not found`);
                 }
             });
-
-              if(current_page=="Describe_network.svg"){
-                changeColor("blue","xplore_mote");
-                changeColor("orange","algorithme_board");
-            }
-
-
         };
 
         function changeColor(color,id){
             const element = document.getElementById(id);
-                if (element) {
-                    element.style.fill = color;
-                } else {
-                    console.error("Element with ID 'algorithme_mote' not found");
-                }
+            if (element) {
+                element.style.fill = color;
+            } else {
+                console.error("Element with ID 'algorithme_mote' not found");
+            }
         }
     </script>
 </head>
