@@ -73,8 +73,9 @@
     loadSVG(current_page);
 }, 5000);
             }
-            if(current_page=="ativate_mote.svg"){
+            if(current_page=="activate_mote.svg"){
                 current_page = "listening.svg";
+                console.log(`time${current_page} `);
                 setTimeout(function(){
     loadSVG(current_page);
 }, 5000);
@@ -126,6 +127,7 @@
                 console.error("Element with ID 'algorithme_mote' not found");
             }
         }
+
     </script>
 </head>
 
