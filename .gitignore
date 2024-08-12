@@ -4,4 +4,4 @@
 
 # Avoid file
 *.ipynb
-bottle.py
+/InriaMuseum/bottle.py
