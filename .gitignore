@@ -4,3 +4,4 @@
 
 # Avoid file
 *.ipynb
+bottle.py
