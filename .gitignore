@@ -1,7 +1,7 @@
 # Avoid directory
-/_pycache_/
-/InriaMuseum/_pycache_/
+_pycache_/
+InriaMuseum/_pycache_/
 
 # Avoid file
 *.ipynb
-/InriaMuseum/bottle.py
+InriaMuseum/bottle.py
