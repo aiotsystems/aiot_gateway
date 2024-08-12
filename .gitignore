@@ -1,6 +1,6 @@
 # Avoid directory
-/_pycache_/
-
+/__pycache__/
+/InriaMuseum/__pycache__/
 
 # Avoid file
 *.ipynb
