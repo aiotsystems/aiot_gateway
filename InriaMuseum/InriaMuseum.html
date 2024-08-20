@@ -6,7 +6,7 @@
     <script>
 
         var current_page;
-        function handleButtonClick(event) {
+        function handleButtonClick(event) { //event listener for buttons
             if(event.target.id == ""){
                 const parentElementId = event.target.parentElement ? event.target.parentElement.id : 'No parent element';
                 changePage(parentElementId);
@@ -74,11 +74,14 @@
 }, 5000);
             }
             if(current_page=="activate_mote.svg"){
+                getData();
+                /*
+                //switch to other page
                 current_page = "listening.svg";
                 console.log(`time${current_page} `);
                 setTimeout(function(){
     loadSVG(current_page);
-}, 5000);
+}, 5000);*/
             }
             if(current_page=="listening.svg"){
                 current_page = "ending_demonstration.svg";
@@ -100,12 +103,12 @@
                 .catch(error => console.error('Error loading SVG:', error));
         }
         
-        window.onload = function() {
+        window.onload = function() { //interface init
             loadSVG('welcome.svg');
             loadelement();
         }
 
-        function loadelement() {
+        function loadelement() { //init buttons & add listener
             console.log('Page loaded, setting up event listeners');
             const ids = ["button_start_fr", "button_start_fr_label", "button_copyright", "button_active","button_suite_group","button_leave", "button_music1", "button_music2","button_défis","button_défis-2"];
             ids.forEach(id => {
@@ -119,13 +122,32 @@
             });
         };
 
-        function changeColor(color,id){
+        function changeColor(color,id){ //changin the color of element
+            console.log(`Change color of : ${id} to ${color}`)
             const element = document.getElementById(id);
             if (element) {
                 element.style.fill = color;
             } else {
                 console.error("Element with ID 'algorithme_mote' not found");
             }
+        }
+
+        function getData(){ //get data from mote
+            fetch('/api/message')
+            .then(response => response.json())
+            .then(data => {
+                console.log(`Message catch: ${data.message["position"]}`);
+                temp = data.message["position"] + "_board"
+                if(data.message["isSomeone"]==true){                    
+                    changeColor("orange",temp);
+                }else{
+                    changeColor("black",temp);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
         }
 
     </script>
