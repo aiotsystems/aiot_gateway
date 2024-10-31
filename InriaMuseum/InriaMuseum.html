@@ -31,20 +31,12 @@
                     current_page='select_music.svg'
                     break;
                 case "button_music1" :
-                current_page = "num_people.svg";
-                break;
                 case "button_music2" :
                     current_page = "num_people.svg";
                     break;
                 case "button_num_people_1":
-                    current_page='map.svg';
-                    break;
                 case "button_num_people_2":
-                    current_page='map.svg';
-                    break;
                 case "button_num_people_3":
-                    current_page='map.svg';
-                    break;
                 case "button_num_people_4":
                     current_page='map.svg';
                     break;
@@ -68,8 +60,9 @@
                 console.log("loaded");
                 let page = "map.svg";
                 loadSVG(page);
-                // Select the existing circle element by its ID
+                // Select the existing circle element by its id
                 const existingCircle = document.getElementById("big_data_mote");
+                console.log(`${existingCircle}`);
                 // Create a new <g> element
                 const newGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
                 newGroup.setAttribute("id", "active_big_data_mote");
