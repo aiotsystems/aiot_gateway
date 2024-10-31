@@ -1,24 +1,16 @@
 from bottle import route, run, static_file, Bottle, template
 import requests
 import json
-
-
-
 SERVERtoLISTEN = "http://localhost:8080/json"
 messages = []  
 app = Bottle()
 table = None
 with open('table.json', 'r') as file:
     table = json.load(file)
-
-
- 
-    
 @app.route('/')
 def index():
      print("index")
-     return template('InriaMuseum.html')
-    
+     return template('InriaMuseum.html')  
 #Get_position(data["payload"])
 #returns position and if there is someone
 def Get_position(json):
@@ -36,8 +28,7 @@ def Get_position(json):
         print("Data to send : ",data)
         return data
     else:
-        return None
-    
+        return None 
 # to be changed
 # returns get_postition of response
 # {"position": "algortihme/langage/machine", "isSomeone": False/True }
@@ -58,23 +49,19 @@ def Get_Mote_Data():
     except requests.exceptions.RequestException as e:
         print(f"Error : connection  {e}")
         return None
-
 @app.route('/api/message')
 def get_message():
     print("fct api/message")
     data = Get_Mote_Data()
     return {"message": data}
-
 @app.route('/api/playmusic')
 def get_message():
     data = Get_Mote_Data()
     return {"message": data}
-
 @app.route('/<filename:path>')
 def serve_static(filename):
     print("fct '/<filename:path>'")
     return static_file(filename, root='.')
-
 #start the web server
 if __name__ == '__main__':
     run(app, host='localhost', port=8080)

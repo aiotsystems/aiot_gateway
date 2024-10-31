@@ -4,8 +4,6 @@
     <title>Inria Museum</title>
     <link rel="stylesheet" type="text/css" href="InriaMuseum.css"> 
     <script>
-
-
         var current_page; //global variable
         var previous_page;
         function handleButtonClick(event) { //event listener for buttons
@@ -21,10 +19,9 @@
                 changePage(event.target.id);
             }
         }
-        
-        function changePage(ElementId) {
-            console.log(`fct changePage ${ElementId}`);
-            switch (ElementId) {
+        function changePage(parent_element) {
+            console.log(`fct changePage ${parent_element}`);
+            switch (parent_element) {
                 case "button_start_fr":
                     current_page='launching.svg';
                     break;
@@ -37,21 +34,20 @@
                 case "button_music1" :
                     music_1();
                     break;
-
                 case "button_music2" :
                     music_2();
                     break;
-                case "button1":
+                case "button_num_people_1":
                     current_page='map.svg';
                     change_map();
                     break;
-                case "button2":
+                case "button_num_people_2":
                     current_page='map.svg';
                     break;
-                case "button3":
+                case "button_num_people_3":
                     current_page='map.svg';
                     break;
-                case "button4":
+                case "button_num_people_4":
                     current_page='map.svg';
                     break;
                     
@@ -63,10 +59,10 @@
                     current_page = previous_page;
                     break;
                 default :
-                    console.log(`default ${ElementId} `); 
+                    console.log(`default ${parent_element} `); 
                     break;
             }
-            if (ElementId == "button1" ||ElementId == "button2"||ElementId == "button3"|| ElementId == "button4" ){
+            if (parent_element== "button_num_people_1" ||parent_element == "button_num_people_2"||parent_element == "button_num_people_3"|| parent_element == "button_num_people_4" ){
                     ; // do nothing
             }
             else{        
@@ -74,7 +70,6 @@
                 checkPage();
             }
         }
-
         function change_map(){
                 console.log("loaded");
                 let page = "map.svg";
@@ -85,7 +80,6 @@
                 // Create a new <g> element
                 const newGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
                 newGroup.setAttribute("id", "active_big_data_mote");
-
                 // Define the new circles
                 const circlesData = [
                     { class: "cls-5", cx: 581.78, cy: 934.53, r: 12.19 },
@@ -93,7 +87,6 @@
                     { class: "cls-2", cx: 581.78, cy: 934.53, r: 25.08 },
                     { class: "cls-4", cx: 581.78, cy: 934.53, r: 30.95 },
                 ];
-
                 // Create the circles and append them to the group
                 circlesData.forEach(circleData => {
                     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -103,19 +96,12 @@
                     circle.setAttribute("r", circleData.r);
                     newGroup.appendChild(circle);
                 });
-
                 // Replace the existing circle with the new group
                 if (existingCircle && existingCircle.parentNode) {
                     existingCircle.parentNode.replaceChild(newGroup, existingCircle);
                     console.log("element replaced");
                 }
-
-
-
-
         }
-
-
         function music_1(){
             console.log("music1");
             current_page = "num_people.svg";
@@ -133,20 +119,7 @@
                      loadSVG(current_page);
                      }, 3000);
             }
-
-
-            if(current_page=="activate_mote.svg"){
-                getData();
-                /*
-                //switch to other page
-                current_page = "listening.svg";
-                console.log(`time${current_page} `);
-                setTimeout(function(){
-                    loadSVG(current_page);
-                }, 5000);*/
-            }
         }
-
         function loadSVG(filename) {
             console.log("fct loadSVG");
             const filePath = `svg/${filename}`;
@@ -159,14 +132,11 @@
                 })
                 .catch(error => console.error('Error loading SVG:', error));
         }
-        
         function loadelement() { // Initialize buttons & add listeners
             console.log("fct load element");
             const ids = ["button_start_fr", "button_start_fr_label", "button_copyright", "button_active",
                         "button_suite_group", "button_leave", "button_music1", "button_music2",
-                        "button_défis", "button_défis-2", "button1", "button2", "button3", "button4"];
-            
-
+                        "button_défis", "button_défis-2", "button_num_people_1", "button_num_people_2","button_num_people_3","button_num_people_4"];
             // Set inactivity timeout (5 minutes in milliseconds)
             const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
             // Function to redirect to welcome page
@@ -194,8 +164,6 @@
                 }
             });
         }
-
-
         function changeColor(color,id){ //changin the color of element
             console.log(`Change color of : ${id} to ${color}`)
             const element = document.getElementById(id);
@@ -205,43 +173,11 @@
                 console.error(`Element with ID :${id} not found`);
             }
         }
-
-        //get data from mote
-        // change color of elemnt with (position + board) id
-        function getData(){ 
-            console.log("fct loaddata");
-            fetch('/api/message')
-            .then(response => response.json())
-            .then(data => {
-                console.log(`Message catch: ${data.message["position"]}`);
-                temp = data.message["position"] + "_board"
-                if(data.message["isSomeone"]==true){                    
-                    changeColor("orange",temp);
-                }else{
-                    changeColor("black",temp);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-
-        }
-
-
-
         window.onload = function() { //interface init
             loadSVG('welcome.svg');
         }
-
-
-
-
-
-
     </script>
 </head>
-
-
 <body>
     <section id="svgContainer" class="doc">
     </section>

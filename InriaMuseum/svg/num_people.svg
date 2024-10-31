@@ -15,21 +15,21 @@
       <text x="90" y="685">C</text>
     </g>
     <!-- Row 1 -->
-    <g id="button1">
+    <g id="button_num_people_1">
       <rect x="200" y="150" width="120" height="80" rx="15" ry="15" fill="#4CAF50" />
       <text x="260" y="200">1</text>
     </g>
-    <g id="button2">
+    <g id="button_num_people_2">
       <rect x="360" y="150" width="120" height="80" rx="15" ry="15" fill="#4CAF50" />
       <text x="420" y="200">2</text>
     </g>
 
     <!-- Row 2 -->
-    <g id="button3">
+    <g id="button_num_people_3">
       <rect x="200" y="270" width="120" height="80" rx="15" ry="15" fill="#4CAF50" />
       <text x="260" y="320">3</text>
     </g>
-    <g id="button4">
+    <g id="button_num_people_4">
       <rect x="360" y="270" width="120" height="80" rx="15" ry="15" fill="#4CAF50" />
       <text x="420" y="320">4</text>
     </g>
