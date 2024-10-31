@@ -54,40 +54,6 @@
             loadSVG(current_page);
             checkPage();
         }
-        //in progress, not used yet
-        // make map page dynamic
-        function change_map(){
-                console.log("loaded");
-                let page = "map.svg";
-                loadSVG(page);
-                // Select the existing circle element by its id
-                const existingCircle = document.getElementById("big_data_mote");
-                console.log(`${existingCircle}`);
-                // Create a new <g> element
-                const newGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-                newGroup.setAttribute("id", "active_big_data_mote");
-                // Define the new circles
-                const circlesData = [
-                    { class: "cls-5", cx: 581.78, cy: 934.53, r: 12.19 },
-                    { class: "cls-3", cx: 581.78, cy: 934.53, r: 20.08 },
-                    { class: "cls-2", cx: 581.78, cy: 934.53, r: 25.08 },
-                    { class: "cls-4", cx: 581.78, cy: 934.53, r: 30.95 },
-                ];
-                // Create the circles and append them to the group
-                circlesData.forEach(circleData => {
-                    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                    circle.setAttribute("class", circleData.class);
-                    circle.setAttribute("cx", circleData.cx);
-                    circle.setAttribute("cy", circleData.cy);
-                    circle.setAttribute("r", circleData.r);
-                    newGroup.appendChild(circle);
-                });
-                // Replace the existing circle with the new group
-                if (existingCircle && existingCircle.parentNode) {
-                    existingCircle.parentNode.replaceChild(newGroup, existingCircle);
-                    console.log("element replaced");
-                }
-        }
         function checkPage() {
             console.log("fct checkPage");
             // display defi page(introduction.svg) after 3s
