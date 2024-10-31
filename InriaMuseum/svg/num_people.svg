@@ -10,7 +10,7 @@
   <!-- Button Grid -->
   <g id="buttons_nb_people" font-size="32" fill="#fff" text-anchor="middle" cursor="pointer">
     <!-- Smaller Button in Orange -->
-    <g id="button_copyright">
+    <g id="button_credits">
       <rect x="50" y="650" width="80" height="60" rx="10" ry="10" fill="#FFA500" />
       <text x="90" y="685">C</text>
     </g>

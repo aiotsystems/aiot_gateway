@@ -1,5 +1,15 @@
-#button_suite_group,#button_start_fr,#button_active,#button_leave,#button_music1,#button_music2,#button_défis,#button_défis-2:hover{
-    cursor:grab;
+#button_start_fr, 
+#button_active, 
+#button_suite, 
+#button_music1, 
+#button_music2,
+#button_num_people_1,
+#button_num_people_2,
+#button_num_people_3,
+#button_num_people_4,
+#button_credits,
+#button_leave:hover {
+    cursor: grab;
 }
 
 .doc:hover{

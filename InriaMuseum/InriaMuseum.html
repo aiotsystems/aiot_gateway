@@ -9,7 +9,6 @@
         function handleButtonClick(event) { //event listener for buttons
             console.log(`ct handleButtonClick ${event}`);
             console.log(`event.target.id ${event.target.id}`);
-
             if(event.target.id == ""){
                 const parentElementId = event.target.parentElement ?
                 event.target.parentElement.id : 'No parent element';
@@ -32,14 +31,13 @@
                     current_page='select_music.svg'
                     break;
                 case "button_music1" :
-                    music_1();
-                    break;
+                current_page = "num_people.svg";
+                break;
                 case "button_music2" :
-                    music_2();
+                    current_page = "num_people.svg";
                     break;
                 case "button_num_people_1":
                     current_page='map.svg';
-                    change_map();
                     break;
                 case "button_num_people_2":
                     current_page='map.svg';
@@ -50,8 +48,7 @@
                 case "button_num_people_4":
                     current_page='map.svg';
                     break;
-                    
-                case "button_copyright":
+                case "button_credits":
                     previous_page = current_page;
                     current_page='credits.svg';
                     break;
@@ -62,21 +59,17 @@
                     console.log(`default ${parent_element} `); 
                     break;
             }
-            if (parent_element== "button_num_people_1" ||parent_element == "button_num_people_2"||parent_element == "button_num_people_3"|| parent_element == "button_num_people_4" ){
-                    ; // do nothing
-            }
-            else{        
-                loadSVG(current_page);
-                checkPage();
-            }
+            loadSVG(current_page);
+            checkPage();
         }
+        //in progress, not used yet
+        // make map page dynamic
         function change_map(){
                 console.log("loaded");
                 let page = "map.svg";
                 loadSVG(page);
                 // Select the existing circle element by its ID
                 const existingCircle = document.getElementById("big_data_mote");
-                console.log(existingCircle);
                 // Create a new <g> element
                 const newGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
                 newGroup.setAttribute("id", "active_big_data_mote");
@@ -102,14 +95,6 @@
                     console.log("element replaced");
                 }
         }
-        function music_1(){
-            console.log("music1");
-            current_page = "num_people.svg";
-        }
-        function music_2(){
-            console.log("music2");
-            current_page = "num_people.svg";
-        }
         function checkPage() {
             console.log("fct checkPage");
             // display defi page(introduction.svg) after 3s
@@ -128,15 +113,16 @@
                 .then(response => response.text())
                 .then(svgContent => {
                     document.getElementById('svgContainer').innerHTML = svgContent;
-                    loadelement();
+                    activate_buttons();
                 })
                 .catch(error => console.error('Error loading SVG:', error));
         }
-        function loadelement() { // Initialize buttons & add listeners
+        function activate_buttons() { // Initialize buttons & add listeners
             console.log("fct load element");
-            const ids = ["button_start_fr", "button_start_fr_label", "button_copyright", "button_active",
-                        "button_suite_group", "button_leave", "button_music1", "button_music2",
-                        "button_défis", "button_défis-2", "button_num_people_1", "button_num_people_2","button_num_people_3","button_num_people_4"];
+            const button_ids = ["button_start_fr", "button_active", 
+                        "button_suite_group", "button_music1", "button_music2",
+                        "button_num_people_1", "button_num_people_2", "button_num_people_3", "button_num_people_4",
+                        "button_credits" ,"button_leave"];
             // Set inactivity timeout (5 minutes in milliseconds)
             const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
             // Function to redirect to welcome page
@@ -151,7 +137,7 @@
                 inactivityTimer = setTimeout(redirectToWelcome, INACTIVITY_TIMEOUT); // 5-minute timeout
             }        
             let inactivityTimer = setTimeout(redirectToWelcome, INACTIVITY_TIMEOUT); // Initial timer
-            ids.forEach(id => {
+            button_ids.forEach(id => {
                 const element = document.getElementById(id);
                 if (element) {
                     element.addEventListener("click", (event) => {
@@ -163,15 +149,6 @@
                     console.log(`Element with id ${id} not found`);
                 }
             });
-        }
-        function changeColor(color,id){ //changin the color of element
-            console.log(`Change color of : ${id} to ${color}`)
-            const element = document.getElementById(id);
-            if (element) {
-                element.style.fill = color;
-            } else {
-                console.error(`Element with ID :${id} not found`);
-            }
         }
         window.onload = function() { //interface init
             loadSVG('welcome.svg');
