@@ -12,5 +12,5 @@ def serve_static(filename):
     print("fct '/<filename:path>'")
     return static_file(filename, root='.')
 #start the web server
-if __name__ == '__main__':
+if __name__ == '__main__': 
     run(app, host='localhost', port=8080)
