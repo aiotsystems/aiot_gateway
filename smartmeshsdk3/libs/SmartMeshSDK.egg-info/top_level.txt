@@ -1,6 +1,0 @@
-MuxConfig
-SmartMeshSDK
-VManagerSDK
-cryptopy
-dustCli
-dustUI
