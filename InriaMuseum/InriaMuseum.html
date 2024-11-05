@@ -6,7 +6,7 @@
     <script>
         var current_page; //global variable
         var previous_page;
-        var map_check = 0; // if map_check = 1 execute change_map()
+        var f_call_change_map = false; // if f_call_change_map, execute change_map()
         var num_people;
         function handleButtonClick(event) { //event listener for buttons
             console.log(`ct handleButtonClick ${event}`);
@@ -39,22 +39,22 @@
                 case "button_num_people_1":
                     num_people = 1;
                     current_page='map.svg';
-                    map_check = 1;
+                    f_call_change_map = true;
                     break;
                 case "button_num_people_2":
                     num_people = 2;
                     current_page='map.svg';
-                    map_check = 1;
+                    f_call_change_map = true;
                     break;
                 case "button_num_people_3":
                     num_people = 3;
                     current_page='map.svg';
-                    map_check = 1;
+                    f_call_change_map = true;
                     break;
                 case "button_num_people_4":
                     num_people = 4;
                     current_page='map.svg';
-                    map_check = 1;
+                    f_call_change_map = true;
                     break;
                 case "button_credits":
                     previous_page = current_page;
@@ -172,7 +172,7 @@
                 .then(svgContent => {
                     document.getElementById('svgContainer').innerHTML = svgContent;
                     activate_buttons();
-                    if (map_check === 1){
+                    if (f_call_change_map === true){
                         change_map(); // Ensuring it is called after map is loaded
                     }
 
