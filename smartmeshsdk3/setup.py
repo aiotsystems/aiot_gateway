@@ -5,6 +5,7 @@
 import os
 import sys
 import platform
+from setuptools import setup, find_packages
 
 sys.path.append(os.path.join('libs',         'dustUI'))
 sys.path.append(os.path.join('libs',         'SmartMeshSDK'))

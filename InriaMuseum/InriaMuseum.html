@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inria Museum</title>
+    <link rel="stylesheet" type="text/css" href="InriaMuseum.css"> 
+    <script>
+        var current_page; //global variable
+        var previous_page;
+        var f_call_change_map = false; // if f_call_change_map, execute change_map()
+        var num_people;
+        function handleButtonClick(event) { //event listener for buttons
+            console.log(`ct handleButtonClick ${event}`);
+            console.log(`event.target.id ${event.target.id}`);
+            if(event.target.id == ""){
+                const parentElementId = event.target.parentElement ?
+                event.target.parentElement.id : 'No parent element';
+                console.log(`event.target.id ${event.target.parentElement.id}`)
+                changePage(parentElementId);
+            }else{
+                changePage(event.target.id);
+            }
+        }
+        function changePage(parent_element) {
+            console.log(`fct changePage ${parent_element}`);
+            switch (parent_element) {
+                case "button_start_fr":
+                    current_page='launching.svg';
+                    break;
+                case "button_active": 
+                    current_page='map.svg';
+                    break;
+                case "button_suite":
+                    current_page='select_music.svg'
+                    break;
+                case "button_music1" :
+                case "button_music2" :
+                    current_page = "num_people.svg";
+                    break;
+                case "button_num_people_1":
+                    num_people = 1;
+                    current_page='map.svg';
+                    f_call_change_map = true;
+                    break;
+                case "button_num_people_2":
+                    num_people = 2;
+                    current_page='map.svg';
+                    f_call_change_map = true;
+                    break;
+                case "button_num_people_3":
+                    num_people = 3;
+                    current_page='map.svg';
+                    f_call_change_map = true;
+                    break;
+                case "button_num_people_4":
+                    num_people = 4;
+                    current_page='map.svg';
+                    f_call_change_map = true;
+                    break;
+                case "button_credits":
+                    previous_page = current_page;
+                    current_page='credits.svg';
+                    break;
+                case "button_leave":
+                    current_page = previous_page;
+                    break;
+                default :
+                    console.log(`default ${parent_element} `); 
+                    break;
+            }
+            loadSVG(current_page);
+            checkPage();
+        }
+        // make map page dynamic
+        function change_map(){
+                // remove suite button
+                const button_s = document.getElementById("button_suite_group");
+                if (button_s) { 
+                    button_s.remove(); 
+                    console.log("Button removed successfully.");
+                } else {
+                    console.log("Button group not found.");
+                }
+                // Change mote circles from grey to green to indicate that they are part of the network
+                // radiuses of circles composing the active mote circle
+                const r1= 12.19;
+                const r2= 20.08;
+                const r3= 25.08;
+                const r4= 28.00;
+                const grey_motes_ids = [
+                    "hall_mote1", "hall_mote2","hall_mote3","hall_mote4",
+                    "hall_mote5", "hall_mote6", "expo_mote1", "expo_mote2", 
+                    "expo_mote3", "expo_mote4", "expo_mote5", "machine_mote", 
+                    "xplore_mote", "algorithme_mote", "language_mote", 
+                    "information_mote", "robotique_mote", "apprentissage_mote",
+                    "reseau_mote", "big_data_mote"
+                ];
+                grey_motes_ids.forEach(mote => {
+                    const mote_grey_circle = document.getElementById(mote);
+                    if (!mote_grey_circle) {
+                        console.error("mote not found");
+                        return; 
+                    }
+                    const cx = mote_grey_circle.getAttribute("cx");
+                    const cy = mote_grey_circle.getAttribute("cy"); 
+                    // Create a new <g> element
+                    const active_circle = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                    active_circle.setAttribute("id", `active ${mote}`);
+                    // Define the new green circle
+                    const active_circle_Data = [
+                        { class: "cls-5", cx: cx,    cy: cy, r: r1 },
+                        { class: "cls-3", cx: cx,    cy: cy, r: r2 },
+                        { class: "cls-2", cx: cx,    cy: cy, r: r3 },
+                        { class: "cls-4", cx: cx,    cy: cy, r: r4 },
+                    ];
+                    // Create the green circle and append it to the active_circle group
+                    active_circle_Data.forEach(circleData => {
+                        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                        circle.setAttribute("class", circleData.class);
+                        circle.setAttribute("cx", circleData.cx);
+                        circle.setAttribute("cy", circleData.cy);
+                        circle.setAttribute("r", circleData.r);
+                        active_circle.appendChild(circle);
+                        });
+                    // Replace the existing circle with the new group
+                    if (mote_grey_circle && mote_grey_circle.parentNode) {
+                        mote_grey_circle.parentNode.replaceChild(active_circle, mote_grey_circle);
+                        console.log("element replaced");
+                        }
+                })  
+                //pick randomly n positions and change board color to orange
+                const board_ids = ["machine_board", "xplore_board", "algorithme_board",
+                "language_board", "information_board", "robotique_board",
+                "apprentissage_board", "reseau_board","big_data_board"
+                ]
+                // Set of n unique random integers between min = 0 and max = num_positions-1 = 8
+                const random_set = (min, max, n = 1) => {
+                    const uniqueNumbers = new Set();
+                    while (uniqueNumbers.size < n) {
+                        const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+                        uniqueNumbers.add(randomNum); 
+                    }
+                    return Array.from(uniqueNumbers);
+                }
+                const num_positions = 9;
+                let positions = random_set(0, num_positions - 1, num_people);
+                // change board color of chosen positions to orange
+                positions.forEach(position => {
+                    const mote_board = document.getElementById(board_ids[position]);
+                    if (!mote_board) {
+                        console.error("Board not found");
+                        return; 
+                    }
+                    mote_board.setAttribute("class", "cls-14");
+                })  
+        }   
+        function checkPage() {
+            console.log("fct checkPage");
+            // display defi page(introduction.svg) after 3s
+            if(current_page=="launching.svg"){
+                current_page = "introduction.svg";
+                setTimeout(function(){
+                     loadSVG(current_page);
+                     }, 3000);
+            }
+        }
+        function loadSVG(filename) {
+            console.log("fct loadSVG");
+            const filePath = `svg/${filename}`;
+            console.log(`New page ${filename} `);
+            fetch(filePath)
+                .then(response => response.text())
+                .then(svgContent => {
+                    document.getElementById('svgContainer').innerHTML = svgContent;
+                    activate_buttons();
+                    if (f_call_change_map === true){
+                        change_map(); // Ensuring it is called after map is loaded
+                    }
+
+                })
+                .catch(error => console.error('Error loading SVG:', error));
+        }
+        function activate_buttons() { // Initialize buttons & add listeners
+            console.log("fct load element");
+            const button_ids = ["button_start_fr", "button_active", 
+                        "button_suite_group", "button_music1", "button_music2",
+                        "button_num_people_1", "button_num_people_2", "button_num_people_3", "button_num_people_4",
+                        "button_credits" ,"button_leave"];
+            // Set inactivity timeout (5 minutes in milliseconds)
+            const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
+            // Function to redirect to welcome page
+            // after 5 minutes of no clicks
+            function redirectToWelcome() {
+                let redirect_page = "welcome.svg"
+                loadSVG(redirect_page);
+            }
+            // Reset the inactivity timer function
+            function resetInactivityTimer() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(redirectToWelcome, INACTIVITY_TIMEOUT); // 5-minute timeout
+            }        
+            let inactivityTimer = setTimeout(redirectToWelcome, INACTIVITY_TIMEOUT); // Initial timer
+            button_ids.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener("click", (event) => {
+                        handleButtonClick(event);
+                        resetInactivityTimer(); // Reset timer on each click
+                    });
+                    console.log(`Event listener attached to: ${id}`);
+                } else {
+                    console.log(`Element with id ${id} not found`);
+                }
+            });
+        }
+        window.onload = function() {
+            loadSVG('welcome.svg');
+        }
+    </script>
+</head>
+<body>
+    <section id="svgContainer" class="doc">
+    </section>
+</body>
+</html>
+
