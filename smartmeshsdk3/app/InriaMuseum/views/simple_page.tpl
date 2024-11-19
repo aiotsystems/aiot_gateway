@@ -10,6 +10,6 @@
 
 <script id="js">
     $(document).ready(function() {
-        loadSvg('page02_introduction');
+        loadSvg("{{svgname}}");
     });
 </script>
