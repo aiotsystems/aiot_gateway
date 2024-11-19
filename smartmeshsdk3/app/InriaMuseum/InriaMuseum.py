@@ -348,6 +348,8 @@ class DataGatherer(threading.Thread):
 
 class WebServer(object):
     
+    TIMEOUTDEFI = 2
+    
     def __init__(self,dataGatherer):
         
         # store params
@@ -359,8 +361,10 @@ class WebServer(object):
         self.websrv.route('/',                        'GET',    self._webhandle_root_GET)
         self.websrv.route('/static/<path:path>',      'GET',    self._webhandle_static_GET)
         self.websrv.route('/cmd.json',                'GET',    self._webhandle_cmd_GET)
-        # keeping track of navigation
+        self.websrv.route('/action',                  'POST',   self._webhandle_action_POST)
+        # navigation
         self.page_to_load  = 'page01_welcome'
+        self.previous_page = None
         self.page_active   = None
         self.page_load_ts  = None
         
@@ -410,9 +414,18 @@ class WebServer(object):
     # admin
     
     def _webhandle_root_GET(self):
-        return bottle.template(
-            "simple_page",
-        )
+        
+        # print
+        print('resetting navigation')
+        
+        # reset navigation
+        self.page_to_load  = 'page01_welcome'
+        self.previous_page = None
+        self.page_active   = None
+        self.page_load_ts  = None
+        
+        # return the initial template
+        return bottle.template("InriaMuseum")
     
     def _webhandle_static_GET(self,path):
         return bottle.static_file(
@@ -420,27 +433,84 @@ class WebServer(object):
             root='static',
         )
     
-    # cmd
-    
     def _webhandle_cmd_GET(self):
         
         # default
         returnVal = {
             'cmdName': None,
         }
-        
+       
         # load new page
         if self.page_active!=self.page_to_load:
+            self.previous_page = self.page_active
+            self.page_active   = self.page_to_load
+            self.page_load_ts  = time.time()
             returnVal = {
                 'cmdName': 'loadsvg',
                 'svgName': self.page_to_load,
             }
-            self.page_active  = self.page_to_load
-            self.page_load_ts = time.time()
+        
+        # timeout on page03_defi
+        if self.page_active=='page03_defi' and time.time()-self.page_load_ts>self.TIMEOUTDEFI:
+            self.page_to_load  = 'select_music'
+            self.previous_page = self.page_active
+            self.page_active   = self.page_to_load
+            self.page_load_ts  = time.time()
+            returnVal = {
+                'cmdName': 'loadsvg',
+                'svgName': self.page_to_load,
+            }
         
         if returnVal['cmdName']:
-            print(returnVal)
+            print(f'GET:  {returnVal}')
         
+        return returnVal
+    
+    def _webhandle_action_POST(self):
+        
+        PAGESTOLOAD = {
+            # page01_welcome
+            ('page01_welcome',     'DEBUT'):        'page02_introduction',
+            # page02_introduction
+            ('page02_introduction','SUITE'):        'map',
+            ('page02_introduction','DEBUT'):        'page01_welcome',
+            ('page02_introduction','C'):            'credits',
+            # map
+            ('map',                'SUITE'):        'page03_defi',
+            ('map',                'DEBUT'):        'page01_welcome',
+            ('map',                'C'):            'credits',
+            # page03_defi
+            ('page03_defi',        'DEBUT'):        'select_music',
+            ('page03_defi',        'C'):            'credits',
+            # select_music
+            ('select_music',       'HARRY_POTTER'): 'num_people',
+            ('select_music',       'STAR_WARS'):    'num_people',
+            ('select_music',       'DEBUT'):        'page01_welcome',
+            ('select_music',       'C'):            'credits',
+            # num_people
+            ('num_people',         'BUTTON_1'):     'map',
+            ('num_people',         'BUTTON_2'):     'map',
+            ('num_people',         'BUTTON_3'):     'map',
+            ('num_people',         'BUTTON_4'):     'map',
+            ('num_people',         'DEBUT'):        'page01_welcome',
+            ('num_people',         'C'):            'credits',
+            # credits
+            ('credits',            'CLOSE'):        self.previous_page,
+        }
+        body = bottle.request.body.read().decode('UTF-8')
+        
+        buttonpressed = body
+        self.page_to_load  = PAGESTOLOAD[(self.page_active,buttonpressed)]
+        self.previous_page = self.page_active
+        self.page_active   = self.page_to_load
+        self.page_load_ts  = time.time()
+        
+        returnVal = {
+            'cmdName': 'loadsvg',
+            'svgName': self.page_to_load,
+        }
+        
+        print(f'POST: {body} {returnVal}')
         return returnVal
     
     # museum
