@@ -358,8 +358,9 @@ class WebServer(object):
         # admin
         self.websrv.route('/',                        'GET',    self._webhandle_root_GET)
         self.websrv.route('/static/<path:path>',      'GET',    self._webhandle_static_GET)
-        # page01_welcome
+        # pages
         self.websrv.route('/page01_welcome',          'GET',    self._webhandle_page01_welcome_GET)
+        self.websrv.route('/page02_introduction',     'GET',    self._webhandle_page02_introduction_GET)
         # museum
         self.websrv.route('/museum',                  'GET',    self._webhandle_museum_GET)
         self.websrv.route('/museum.json',             'GET',    self._webhandle_museumjson_GET)
@@ -426,6 +427,13 @@ class WebServer(object):
             "page01_welcome"
         )
     
+    # page02_introduction
+    
+    def _webhandle_page02_introduction_GET(self):
+        return bottle.template(
+            "page02_introduction"
+        )
+    
     # museum
     
     def _webhandle_museum_GET(self):
@@ -482,6 +490,11 @@ class WebServer(object):
                     },
                     manager      = 0
                 )
+    
+    def _webhandle_credits_GET(self):
+        return bottle.template(
+            "credits"
+        )
     
     #======================== private =========================================
 
