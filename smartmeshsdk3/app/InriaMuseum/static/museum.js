@@ -2,8 +2,8 @@ var uiReady = false;
 
 //=========================== initialization ==================================
 
-function loadSvg() {
-    d3.xml('/static/museum.svg')
+function loadSvg(filename) {
+    d3.xml('/static/'+filename+'.svg')
         .then(data => {
             document.body.append(data.documentElement);
             buildPage();
@@ -11,6 +11,11 @@ function loadSvg() {
 }
 
 function buildPage() {
+    
+    d3.select("#button_start_fr")
+        .on('click', function(d,i){
+            $.get('museum');
+        });
     
     d3.select("#button_lowpower")
         .on('click', function(d,i){

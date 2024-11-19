@@ -358,6 +358,8 @@ class WebServer(object):
         # admin
         self.websrv.route('/',                        'GET',    self._webhandle_root_GET)
         self.websrv.route('/static/<path:path>',      'GET',    self._webhandle_static_GET)
+        # page01_welcome
+        self.websrv.route('/page01_welcome',          'GET',    self._webhandle_page01_welcome_GET)
         # museum
         self.websrv.route('/museum',                  'GET',    self._webhandle_museum_GET)
         self.websrv.route('/museum.json',             'GET',    self._webhandle_museumjson_GET)
@@ -409,12 +411,19 @@ class WebServer(object):
     # admin
     
     def _webhandle_root_GET(self):
-        bottle.redirect("/museum")
+        bottle.redirect("/page01_welcome")
     
     def _webhandle_static_GET(self,path):
         return bottle.static_file(
             path,
             root='static',
+        )
+    
+    # page01_welcome
+    
+    def _webhandle_page01_welcome_GET(self):
+        return bottle.template(
+            "page01_welcome"
         )
     
     # museum
