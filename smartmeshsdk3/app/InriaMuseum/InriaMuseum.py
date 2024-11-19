@@ -348,7 +348,8 @@ class DataGatherer(threading.Thread):
 
 class WebServer(object):
     
-    TIMEOUTDEFI = 2
+    TIMEOUTDEFI  = 2
+    TIMEOUTABORT = 5*60
     
     def __init__(self,dataGatherer):
         
@@ -445,6 +446,17 @@ class WebServer(object):
             self.previous_page = self.page_active
             self.page_active   = self.page_to_load
             self.page_load_ts  = time.time()
+            returnVal = {
+                'cmdName': 'loadsvg',
+                'svgName': self.page_to_load,
+            }
+        
+        # timeout on any page (aborting)
+        if self.page_load_ts>self.TIMEOUTABORT:
+            self.page_to_load  = 'page01_welcome'
+            self.previous_page = None
+            self.page_active   = None
+            self.page_load_ts  = None
             returnVal = {
                 'cmdName': 'loadsvg',
                 'svgName': self.page_to_load,
