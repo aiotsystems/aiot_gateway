@@ -2,36 +2,76 @@ var uiReady = false;
 
 //=========================== initialization ==================================
 
-function loadSvg(filename) {
-    d3.xml('/static/'+filename+'.svg')
-        .then(data => {
-            document.body.append(data.documentElement);
-            buildPage();
-        })
+function getCmd() {
+    $.getJSON('cmd.json', function(cmd) {
+        handleCmd(cmd);
+    })
 }
 
-function buildPage() {
+function handleCmd(cmd) {
     
-    // page01_welcome
-    d3.select("#button_start_fr")       // "DEBUT"
-        .on('click', function(d,i){
-            window.location = 'page02_introduction';
-        });
+    console.log(cmd);
     
-    // page02_introduction
-    d3.select("#button_start_fr_label") // "SUITE"
-        .on('click', function(d,i){
-            window.location = 'page02_introduction';
-        });
-    d3.select("#button_active_label")   // "DEBUT"
-        .on('click', function(d,i){
-            window.location = 'page02_introduction';
-        });
-    d3.select("#button_credits")        // "C"
-        .on('click', function(d,i){
-            window.location = 'credits';
-        });
+    switch(cmd.cmdName) {
+        case 'loadsvg':
+            d3.xml('/static/'+cmd.svgName+'.svg')
+                .then(data => {
+                    $("#svgdiv").html(data.documentElement);;
+                    armButtons(cmd.svgName);
+                })
+    }
+}
+
+function armButtons(svgName) {
     
+    switch (svgName) {
+        case 'page01_welcome':
+            d3.select("#button_start_fr")        // "DEBUT"
+                .on('click', function(d,i){
+                    window.location = 'page02_introduction';
+                });
+            break;
+        case 'page02_introduction':
+            d3.select("#button_active")          // "SUITE"
+                .on('click', function(d,i){
+                    window.location = 'map';
+                });
+            d3.select("#button_start_fr")        // "DEBUT"
+                .on('click', function(d,i){
+                    window.location = 'page01_welcome';
+                });
+            d3.select("#button_credits")         // "C"
+                .on('click', function(d,i){
+                    window.location = 'credits';
+                });
+            break;
+        case 'map':
+            d3.select("#button_suite_group")     // "SUITE"
+                .on('click', function(d,i){
+                    window.location = 'page03_defi';
+                });
+            d3.select("#button_start_fr_label")  // "DEBUT"
+                .on('click', function(d,i){
+                    window.location = 'page01_welcome';
+                });
+            d3.select("#button_credits")         // "C"
+                .on('click', function(d,i){
+                    window.location = 'credits';
+                });
+            break;
+        case 'page03_defi':
+            d3.select("#button_start_fr_label")  // "DEBUT"
+                .on('click', function(d,i){
+                    window.location = 'page01_welcome';
+                });
+            d3.select("#button_credits")         // "C"
+                .on('click', function(d,i){
+                    window.location = 'credits';
+                });
+            break;
+    }
+    
+    /*
     d3.select("#button_lowpower")
         .on('click', function(d,i){
             $.post('museum', 'button_lowpower');
@@ -48,6 +88,7 @@ function buildPage() {
         .on('click', function(d,i){
             $.post('museum', 'button_music2');
         });
+    */
     
     uiReady = true;
 }

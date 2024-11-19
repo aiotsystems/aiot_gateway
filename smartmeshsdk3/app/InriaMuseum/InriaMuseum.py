@@ -358,13 +358,11 @@ class WebServer(object):
         # admin
         self.websrv.route('/',                        'GET',    self._webhandle_root_GET)
         self.websrv.route('/static/<path:path>',      'GET',    self._webhandle_static_GET)
-        # pages
-        self.websrv.route('/page01_welcome',          'GET',    self._webhandle_page01_welcome_GET)
-        self.websrv.route('/page02_introduction',     'GET',    self._webhandle_page02_introduction_GET)
-        # museum
-        self.websrv.route('/museum',                  'GET',    self._webhandle_museum_GET)
-        self.websrv.route('/museum.json',             'GET',    self._webhandle_museumjson_GET)
-        self.websrv.route('/museum',                  'POST',   self._webhandle_museum_POST)
+        self.websrv.route('/cmd.json',                'GET',    self._webhandle_cmd_GET)
+        # keeping track of navigation
+        self.page_to_load  = 'page01_welcome'
+        self.page_active   = None
+        self.page_load_ts  = None
         
         # start web interface
         webthread = threading.Thread(
@@ -412,7 +410,9 @@ class WebServer(object):
     # admin
     
     def _webhandle_root_GET(self):
-        bottle.redirect("/page01_welcome")
+        return bottle.template(
+            "simple_page",
+        )
     
     def _webhandle_static_GET(self,path):
         return bottle.static_file(
@@ -420,19 +420,28 @@ class WebServer(object):
             root='static',
         )
     
-    # page01_welcome
+    # cmd
     
-    def _webhandle_page01_welcome_GET(self):
-        return bottle.template(
-            "page01_welcome"
-        )
-    
-    # page02_introduction
-    
-    def _webhandle_page02_introduction_GET(self):
-        return bottle.template(
-            "page02_introduction"
-        )
+    def _webhandle_cmd_GET(self):
+        
+        # default
+        returnVal = {
+            'cmdName': None,
+        }
+        
+        # load new page
+        if self.page_active!=self.page_to_load:
+            returnVal = {
+                'cmdName': 'loadsvg',
+                'svgName': self.page_to_load,
+            }
+            self.page_active  = self.page_to_load
+            self.page_load_ts = time.time()
+        
+        if returnVal['cmdName']:
+            print(returnVal)
+        
+        return returnVal
     
     # museum
     
@@ -441,9 +450,8 @@ class WebServer(object):
             "museum",
             pagetitle   = 'InriaMuseum',
         )
-    
+    '''
     def _webhandle_museumjson_GET(self):
-        '''
         This function needs to create
         
         {
@@ -453,7 +461,6 @@ class WebServer(object):
                     'stroke': 'red',
                 }
         }
-        '''
         
         returnVal = {}
         
@@ -461,7 +468,7 @@ class WebServer(object):
         returnVal['motes'] = AppData().get_motes()
         
         return returnVal
-    
+    '''
     def _webhandle_museum_POST(self):
         body = bottle.request.body.read()
         print(body)
@@ -491,9 +498,12 @@ class WebServer(object):
                     manager      = 0
                 )
     
+    # credits
+    
     def _webhandle_credits_GET(self):
         return bottle.template(
-            "credits"
+            "simple_page",
+            svgname = 'credits',
         )
     
     #======================== private =========================================
