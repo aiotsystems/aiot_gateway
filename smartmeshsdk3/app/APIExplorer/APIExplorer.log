@@ -1,0 +1,3 @@
+2025-07-04 17:34:36,760 [SerialConnector:INFO] creating object
+2025-07-04 17:34:36,761 [Hdlc:INFO] Creating object
+2025-07-04 17:34:36,761 [Hdlc:WARNING] could not open /dev/ttyUSB3@115200baud, reason: [Errno 13] could not open port /dev/ttyUSB3: [Errno 13] Permission denied: '/dev/ttyUSB3'

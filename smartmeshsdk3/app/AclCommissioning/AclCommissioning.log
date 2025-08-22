@@ -1,0 +1,79 @@
+2025-07-04 16:57:40,663 [SerialConnector:INFO] creating object
+2025-07-04 16:57:40,663 [SerialConnector:INFO] creating object
+2025-07-04 16:58:00,686 [Hdlc:INFO] Creating object
+2025-07-04 16:58:00,688 [Hdlc:INFO] opened port /dev/ttyUSB3@115200baud
+2025-07-04 16:58:00,689 [SerialConnector:INFO] hdlc notification: connection state=True
+2025-07-04 16:58:00,689 [Hdlc:INFO] thread started
+2025-07-04 16:58:00,689 [ByteArraySerializer:DEBUG] serialize ...
+- commandArray:     ['hello']
+- fieldsToFill:     {'version': 4, 'cliSeqNo': 255, 'mode': 0}
+2025-07-04 16:58:00,690 [ByteArraySerializer:DEBUG] ... serialize into
+- cmdId:            1
+- byteArray:        04-ff-00
+2025-07-04 16:58:00,690 [SerialConnector:DEBUG] _sendInternal cmdId=1 retry=0 isResponse=False serializedFields=[4, 255, 0]
+2025-07-04 16:58:00,690 [SerialConnector:DEBUG] ---------- pcToMote DATA (0) ---------->
+2025-07-04 16:58:00,690 [Crc:DEBUG] calculating for data=00-01-00-03-04-ff-00
+2025-07-04 16:58:00,690 [Crc:DEBUG] fcs=0x3731
+2025-07-04 16:58:00,690 [Hdlc:DEBUG] 
+packetToSend:
+ - payload: 00 01 00 03 04 ff 00
+ - fcs:     37 31
+ - valid:   True
+2025-07-04 16:58:01,191 [SerialConnector:INFO] retry 0
+2025-07-04 16:58:01,191 [SerialConnector:DEBUG] _sendInternal cmdId=1 retry=1 isResponse=False serializedFields=[4, 255, 0]
+2025-07-04 16:58:01,191 [SerialConnector:DEBUG] ---------- pcToMote DATA (0) ---------->
+2025-07-04 16:58:01,191 [Crc:DEBUG] calculating for data=00-01-00-03-04-ff-00
+2025-07-04 16:58:01,192 [Crc:DEBUG] fcs=0x3731
+2025-07-04 16:58:01,192 [Hdlc:DEBUG] 
+packetToSend:
+ - payload: 00 01 00 03 04 ff 00
+ - fcs:     37 31
+ - valid:   True
+2025-07-04 16:58:01,196 [SerialConnector:INFO] hdlc notification: connection state=False
+2025-07-04 16:58:01,196 [Hdlc:INFO] disconnect
+2025-07-04 16:58:01,197 [Hdlc:INFO] thread ended
+2025-07-04 16:58:01,692 [SerialConnector:INFO] retry 1
+2025-07-04 16:58:01,692 [SerialConnector:DEBUG] _sendInternal cmdId=1 retry=2 isResponse=False serializedFields=[4, 255, 0]
+2025-07-04 16:58:01,693 [SerialConnector:DEBUG] ---------- pcToMote DATA (0) ---------->
+2025-07-04 16:58:01,693 [SerialConnector:ERROR] no HDLC module, did I just disconnect?
+2025-07-04 16:59:43,947 [SerialConnector:INFO] creating object
+2025-07-04 16:59:43,947 [SerialConnector:INFO] creating object
+2025-07-04 16:59:49,006 [Hdlc:INFO] Creating object
+2025-07-04 16:59:49,008 [Hdlc:INFO] opened port /dev/ttyUSB3@115200baud
+2025-07-04 16:59:49,008 [SerialConnector:INFO] hdlc notification: connection state=True
+2025-07-04 16:59:49,008 [Hdlc:INFO] thread started
+2025-07-04 16:59:49,009 [ByteArraySerializer:DEBUG] serialize ...
+- commandArray:     ['hello']
+- fieldsToFill:     {'version': 4, 'cliSeqNo': 255, 'mode': 0}
+2025-07-04 16:59:49,009 [ByteArraySerializer:DEBUG] ... serialize into
+- cmdId:            1
+- byteArray:        04-ff-00
+2025-07-04 16:59:49,010 [SerialConnector:DEBUG] _sendInternal cmdId=1 retry=0 isResponse=False serializedFields=[4, 255, 0]
+2025-07-04 16:59:49,010 [SerialConnector:DEBUG] ---------- pcToMote DATA (0) ---------->
+2025-07-04 16:59:49,010 [Crc:DEBUG] calculating for data=00-01-00-03-04-ff-00
+2025-07-04 16:59:49,010 [Crc:DEBUG] fcs=0x3731
+2025-07-04 16:59:49,010 [Hdlc:DEBUG] 
+packetToSend:
+ - payload: 00 01 00 03 04 ff 00
+ - fcs:     37 31
+ - valid:   True
+2025-07-04 16:59:49,014 [Crc:DEBUG] calculating for data=00-02-00-05-00-04-00-ff-00
+2025-07-04 16:59:49,014 [Crc:DEBUG] fcs=0x2323
+2025-07-04 16:59:49,014 [Hdlc:DEBUG] 
+receivedFrame:
+ - payload: 00 02 00 05 00 04 00 ff 00
+ - fcs:     23 23
+ - valid:   True
+2025-07-04 16:59:49,015 [SerialConnector:DEBUG] cmdId=2 length=5 isResponse=False packetId=0 payload=[0, 4, 0, 255, 0]
+2025-07-04 16:59:49,015 [SerialConnector:DEBUG] <--------- moteToPc DATA (0) ----------
+2025-07-04 16:59:49,015 [SerialConnector:DEBUG] no ack needed
+2025-07-04 16:59:49,015 [ByteArraySerializer:DEBUG] deserialize ...
+- type:             command
+- id:               2
+- byteArray:        00-04-00-ff-00
+2025-07-04 16:59:49,015 [ByteArraySerializer:DEBUG] ... deserialized into
+- nameArray:        ['hello_response']
+- returnFields:     {'successCode': 0, 'version': 4, 'mgrSeqNo': 0, 'cliSeqNo': 255, 'mode': 0}
+2025-07-04 17:00:18,432 [Hdlc:INFO] disconnect
+2025-07-04 17:00:18,432 [SerialConnector:INFO] hdlc notification: connection state=False
+2025-07-04 17:00:18,432 [Hdlc:INFO] thread ended

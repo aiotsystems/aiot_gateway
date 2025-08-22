@@ -24,6 +24,8 @@ import pprint
 import socket
 # requirements
 import bottle
+from bottle import route, run, static_file, Bottle, template, response, request
+
 # SmartMeshSDK
 from SmartMeshSDK            import sdk_version
 from SmartMeshSDK.utils      import JsonManager
@@ -32,43 +34,39 @@ from dustCli                 import DustCli
 
 #============================ define ==========================================
 
-DFLT_SERIALPORT = 'COM40'
+DFLT_SERIALPORT = '/dev/ttyUSB3'
 DFLT_TCPPORT    = 8081
+motes_data = {}
 
 MOTES = [
     # showroom
-    {'name': 'big_data_mote',      'macAddress': None},
-    {'name': 'reseau_mote',        'macAddress': None},
-    {'name': 'apprentissage_mote', 'macAddress': None},
-    {'name': 'robotique_mote',     'macAddress': None},
-    {'name': 'information_mote',   'macAddress': None},
-    {'name': 'language_mote',      'macAddress': None},
-    {'name': 'algorithme_mote',    'macAddress': '00-17-0d-00-00-68-0a-ab'},
-    {'name': 'xplore_mote',        'macAddress': None},
-    {'name': 'machine_mote',       'macAddress': None},
+    {'name': 'machine_mote',       'macAddress': '00-17-0d-00-00-70-1a-06'},
+    {'name': 'xplore_mote',        'macAddress': '00-17-0d-00-00-33-f3-4e'},
+    {'name': 'algorithme_mote',    'macAddress': '00-17-0d-00-00-70-1c-a3'},
+    {'name': 'language_mote',      'macAddress': '00-17-0d-00-00-70-1c-9b'},
+    {'name': 'information_mote',   'macAddress': '00-17-0d-00-00-68-0b-ec'},
+    {'name': 'robotique_mote',     'macAddress': '00-17-0d-00-00-68-0a-ab'},
+    {'name': 'apprentissage_mote', 'macAddress': '00-17-0d-00-00-68-0d-3a'},
+    {'name': 'reseau_mote',        'macAddress': '00-17-0d-00-00-70-53-ba'},
+    {'name': 'big_data_mote',      'macAddress': '00-17-0d-00-00-68-0b-04'},
     # expo
-    {'name': 'expo_mote1',         'macAddress': None},
-    {'name': 'expo_mote2',         'macAddress': None},
-    {'name': 'expo_mote3',         'macAddress': None},
-    {'name': 'expo_mote4',         'macAddress': None},
-    {'name': 'expo_mote5',         'macAddress': None},
+    {'name': 'expo_mote1',         'macAddress': '00-17-0d-00-00-68-0a-33'},
+    {'name': 'expo_mote2',         'macAddress': '00-17-0d-00-00-70-56-94'},
+    {'name': 'expo_mote3',         'macAddress': '00-17-0d-00-00-68-08-a0'},
+    {'name': 'expo_mote4',         'macAddress': '00-17-0d-00-00-70-1d-15'},
+    {'name': 'expo_mote5',         'macAddress': '00-17-0d-00-00-68-09-f6'},
     # hall
-    {'name': 'hall_mote1',         'macAddress': None},
-    {'name': 'hall_mote2',         'macAddress': None},
-    {'name': 'hall_mote3',         'macAddress': None},
-    {'name': 'hall_mote4',         'macAddress': None},
-    {'name': 'hall_mote5',         'macAddress': None},
-    {'name': 'hall_mote6',         'macAddress': None},
+    {'name': 'hall_mote1',         'macAddress': '00-17-0d-00-00-68-0b-c9'},
+    {'name': 'hall_mote2',         'macAddress': '00-17-0d-00-00-68-38-de'},
+    {'name': 'hall_mote3',         'macAddress': '00-17-0d-00-00-68-0b-b7'},
+    {'name': 'hall_mote4',         'macAddress': '00-17-0d-00-00-70-1c-2d'},
+    {'name': 'hall_mote5',         'macAddress': '00-17-0d-00-00-68-08-41'},
+    {'name': 'hall_mote6',         'macAddress': '00-17-0d-00-00-68-0a-16'},
 ]
 MOTENAMES = [m['name'] for m in MOTES]
 mote_macAddress2name = {}
 for m in MOTES:
     mote_macAddress2name[m['macAddress']] = m['name']
-
-MSGID_CMD_LOWPOWER = 0x01
-MSGID_CMD_ACTIVE   = 0x02
-MSGID_CMD_MUSIC    = 0x03
-MSGID_NOTIF_US     = 0x04
 
 #============================ helpers =========================================
 
@@ -96,7 +94,6 @@ def logError(err):
 pp = pprint.PrettyPrinter(indent=4)
 
 #============================ classes =========================================
-
 class AppData(object):
     '''
     {
@@ -161,7 +158,6 @@ class DataGatherer(threading.Thread):
         # local variables
         self.delaySnapshot        = 1 # wait for banners before first snapshot
         self.goOn                 = True
-        
         # start thread
         threading.Thread.__init__(self)
         self.name = 'DataGatherer'
@@ -194,7 +190,6 @@ class DataGatherer(threading.Thread):
     
     def close(self):
         self.goOn = False
-    
     #======================== private =========================================
     
     # === abstract methods
@@ -217,17 +212,16 @@ class DataGatherer(threading.Thread):
     # === private
     
     # notifications from networks
-    
     def _notif_cb(self,notifName,notifJson):
         if notifName=='notifData':
             self._device_notifData_cb(notifJson)
         else:
             pass # silently drop notification I don't need
-    
+
     def _device_notifData_cb(self,data):
         '''
         {
-            'manager': 'COM40',
+            'manager': '/dev/ttyUSB3',
             'name': 'notifData',
             'fields': {
                 'utcSecs':    1025683841,
@@ -239,13 +233,18 @@ class DataGatherer(threading.Thread):
             },
         }
         '''
+        mac_address = data['fields']['macAddress']
+        raw_data = data['fields']['data']
+        motes_data[mac_address] = raw_data[0]
+
+
         moteName = mote_macAddress2name[data['fields']['macAddress']]
         if data['fields']['data']==[0x00]:
             fill = 'red'
         else:
             fill = 'green'
         AppData().notifData(moteName,fill)
-    
+
     # deleters
     
     def _deleteMotes(self,manager):
@@ -358,11 +357,13 @@ class WebServer(object):
         # admin
         self.websrv.route('/',                        'GET',    self._webhandle_root_GET)
         self.websrv.route('/static/<path:path>',      'GET',    self._webhandle_static_GET)
+        self.websrv.route('/detecting'         ,      'GET',    self._handle_detecting_GET)
+
         # museum
         self.websrv.route('/museum',                  'GET',    self._webhandle_museum_GET)
         self.websrv.route('/museum.json',             'GET',    self._webhandle_museumjson_GET)
-        self.websrv.route('/museum',                  'POST',   self._webhandle_museum_POST)
-        
+        self.websrv.route('/send_data',               'POST',   self._webhandle_museum_POST)
+
         # start web interface
         webthread = threading.Thread(
             target = self._bottle_try_running_forever,
@@ -391,7 +392,7 @@ class WebServer(object):
             try:
                 args[0](**kwargs) # blocking
             except socket.error as err:
-                if err[0]==10013:
+                if err.errno == 10013:
                     print ('FATAL: cannot open TCP port {0}.'.format(kwargs['port']))
                     print ('    Is another application running on that port?')
                 else:
@@ -410,21 +411,22 @@ class WebServer(object):
     
     def _webhandle_root_GET(self):
         bottle.redirect("/museum")
-    
+
     def _webhandle_static_GET(self,path):
         return bottle.static_file(
-            path,
-            root='static',
-        )
-    
+            path, 
+            root='./static')
+
+    def _handle_detecting_GET(self):
+        response.content_type = 'application/json'        
+        return json.dumps(motes_data)
     # museum
-    
     def _webhandle_museum_GET(self):
-        return bottle.template(
-            "museum",
-            pagetitle   = 'InriaMuseum',
+        return bottle.static_file(
+            'InriaMuseum.html',  
+            root='./',          # in the same directory           
         )
-    
+
     def _webhandle_museumjson_GET(self):
         '''
         This function needs to create
@@ -444,37 +446,29 @@ class WebServer(object):
         returnVal['motes'] = AppData().get_motes()
         
         return returnVal
-    
+
+  
     def _webhandle_museum_POST(self):
-        body = bottle.request.body.read()
-        print(body)
-        
-        data = None
-        if   body==b'button_lowpower':
-            data = [MSGID_CMD_LOWPOWER]
-        elif body==b'button_active':
-            data = [MSGID_CMD_ACTIVE]
-        elif body==b'button_music1':
-            data = [MSGID_CMD_MUSIC]
-        elif body==b'button_music2':
-            pass
-        
+        payload = request.json
+        data    = payload.get('data')
+        data = [data]
         if data:
-            for _ in range(4):
                 self.dataGatherer.jsonManager.raw_POST(
                     commandArray = ['sendData'],
                     fields       = {
-                        'macAddress': [0xff]*8,
+                        'macAddress': [0xff]*8,  # Broadcast to all motes
                         'priority':   0,
                         'srcPort':    0xf0b8,
                         'dstPort':    0xf0b8,
                         'options':    0,
                         'data':       data,
                     },
-                    manager      = 0
+                    manager      = DFLT_SERIALPORT
                 )
-    
-    #======================== private =========================================
+ 
+
+
+     #======================== private =========================================
 
 class InriaMuseum(object):
     
@@ -514,7 +508,7 @@ class InriaMuseum(object):
     #========================  CLI handlers ===================================
     
     def _clihandle_quit(self):
-        
+        self.dataGatherer.jsonManager.close()
         self.dataGatherer.close()
         self.webServer.close()
         
